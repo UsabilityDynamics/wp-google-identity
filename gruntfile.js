@@ -47,13 +47,17 @@ module.exports = function build( grunt ) {
           yuicompress: true,
           relativeUrls: true
         },
-        files: {}
+        files: {
+          'static/styles/admin.css': [ 'static/styles/src/admin.less' ]
+        }
       },
       development: {
         options: {
           relativeUrls: true
         },
-        files: {}
+        files: {
+          'static/styles/admin.dev.css': [ 'static/styles/src/admin.less' ]
+        }
       }
     },
 

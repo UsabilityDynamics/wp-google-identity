@@ -1,0 +1,6 @@
+#uis_form .sui-text {
+  min-width: 300px;
+}
+#uis_form .select2-selection__rendered {
+  min-width: 220px;
+}
