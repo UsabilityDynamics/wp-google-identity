@@ -28,10 +28,18 @@ namespace UsabilityDynamics\WPGI {
        */
       public function call( $atts = "" ) {
         /**
-         * Be sure if Google OAuth is enabled.
-         * See Settings : WP Google Identity page on Admin panel.
-         */
-        if( ud_get_wp_google_identity( 'oauth.google.enabled' ) !== '1' ) {
+         * Be sure if Sign-In is enabled. */
+        if( ud_get_wp_google_identity( 'signin.enabled' ) !== '1' ) {
+          return;
+        }
+        /** Be sure that Browser API Key is set. */
+        $api_key = ud_get_wp_google_identity( 'oauth.google.api_key' );
+        if( empty( $api_key ) ) {
+          return;
+        }
+        /** Be sure that Sign-In page is set. */
+        $signin_page_id = ud_get_wp_google_identity( 'signin.page' );
+        if( empty( $signin_page_id ) || !get_permalink( $signin_page_id ) ) {
           return;
         }
         ?><script type="text/javascript" src="//www.gstatic.com/authtoolkit/js/gitkit.js"></script>
@@ -40,12 +48,10 @@ namespace UsabilityDynamics\WPGI {
           window.google.identitytoolkit.signInButton(
             '#wpgi_sign',
             {
-              widgetUrl: "https://www.usabilitydynamics.org/signup/",
-              signOutUrl: "https://www.usabilitydynamics.com"
-
-              // Optional - Begin the sign-in flow in a popup window
-              //popupMode: true,
-
+              widgetUrl: "<?php echo trailingslashit( get_permalink( $signin_page_id ) ); ?>",
+              signOutUrl: "<?php echo trailingslashit( home_url() ); ?>"
+              <?php if( ud_get_wp_google_identity( 'signin.popup' ) == '1' ) echo ', popupMode: "true"'; ?>
+              <?php
               // Optional - Begin the sign-in flow immediately on page load.
               //            Note that if this is true, popupMode param is ignored
               //loginFirst: true,
@@ -54,6 +60,7 @@ namespace UsabilityDynamics\WPGI {
               //            NOTE: Also needs to be added to config of ‘widget
               //                  page’. See below
               //cookieName: ‘example_cookie’,
+              ?>
             }
           );
         </script><div id="wpgi_sign"></div><?php
