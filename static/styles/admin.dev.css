@@ -4,3 +4,10 @@
 #uis_form .select2-selection__rendered {
   min-width: 220px;
 }
+#uis_form .adviser ul {
+  list-style-position: outside;
+  margin-left: 20px;
+}
+#uis_form .adviser ul li {
+  list-style: circle;
+}

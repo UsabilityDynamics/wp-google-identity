@@ -158,6 +158,22 @@ namespace UsabilityDynamics\WPGI {
        * @return array
        */
       public function get_localization() {
+
+        /**
+         * Adviser on Settings page
+         */
+        ob_start();
+        ?>
+        <div class="adviser">
+          <label><?php _e( 'Be advised', $this->domain ); ?>:</label>
+          <ul>
+            <li><?php printf( __( 'You can find how to configure your Google Identity service <a target="_blank" href="%s">here</a>.', $this->domain ), "https://developers.google.com/identity/toolkit/web/configure-service" ); ?></li>
+            <li><?php _e( 'Use <b>[wpgi_signin]</b> shortcode to add Sign-In button on you site.', $this->domain ); ?></li>
+          </ul>
+        </div>
+        <?php
+        $description = ob_get_clean();
+
         return apply_filters( 'wpgi::get_localization', array(
           'wpgi_settings' => __( 'WP Google Identity', $this->domain ),
           'wpgi_page_title' => __( 'WP Google Identity Settings', $this->domain ),
@@ -167,7 +183,7 @@ namespace UsabilityDynamics\WPGI {
           'redirect_uri' => __( 'Redirect URI', $this->domain ),
           'javascript_origins' => __( 'Javascript Origins', $this->domain ),
           'general' => __( 'General', $this->domain ),
-          'general_menu_desc' => sprintf( __( 'You can find how to configure your Google Identity service <a target="_blank" href="%s">here</a>.', $this->domain ), "https://developers.google.com/identity/toolkit/web/configure-service" ),
+          'general_menu_desc' => $description,
           'signin_settings' => __( 'Sign-In Button', $this->domain ),
           'page' => __( 'Page', $this->domain ),
           'signin_page_desc' => __( 'Page which is used for Sign-Up', $this->domain ),

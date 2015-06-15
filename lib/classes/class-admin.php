@@ -33,7 +33,6 @@ namespace UsabilityDynamics\WPGI {
         add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 
         add_filter( 'ud::ui::field::readonly::value', array( __CLASS__, 'prepare_field_value' ), 10, 2 );
-
       }
 
       /**
