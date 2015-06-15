@@ -161,22 +161,21 @@ namespace UsabilityDynamics\WPGI {
         return apply_filters( 'wpgi::get_localization', array(
           'wpgi_settings' => __( 'WP Google Identity', $this->domain ),
           'wpgi_page_title' => __( 'WP Google Identity Settings', $this->domain ),
-          'oauth' => __( 'OAuth', $this->domain ),
-          'oauth_menu_desc' => __( 'OAuth Settings', $this->domain ),
-          'google' => __( 'Google', $this->domain ),
-          'facebook' => __( 'Facebook', $this->domain ),
-          'paypal' => __( 'Paypal', $this->domain ),
+          'oauth_google' => __( 'OAuth Google', $this->domain ),
           'enabled' => __( 'Enabled', $this->domain ),
-          'api_key' => __( 'API Key', $this->domain ),
+          'api_key' => __( 'Browser API key', $this->domain ),
           'redirect_uri' => __( 'Redirect URI', $this->domain ),
           'javascript_origins' => __( 'Javascript Origins', $this->domain ),
           'general' => __( 'General', $this->domain ),
-          'general_menu_desc' => __( 'General Settings', $this->domain ),
+          'general_menu_desc' => sprintf( __( 'You can find how to configure your Google Identity service <a target="_blank" href="%s">here</a>.', $this->domain ), "https://developers.google.com/identity/toolkit/web/configure-service" ),
           'signin_settings' => __( 'Sign-In Button', $this->domain ),
           'page' => __( 'Page', $this->domain ),
           'signin_page_desc' => __( 'Page which is used for Sign-Up', $this->domain ),
           'popup' => __( 'Popup Enabled', $this->domain ),
           'signin_popup_desc' => __( 'Show page in popup. If disabled, user will be redirected to Sign-Up page directly.', $this->domain ),
+          'signin_enabled_desc' => __( 'If disabled, native WordPress Sign-In logic is being used.', $this->domain ),
+          'redirect_uri_desc' => __( 'Copy this value to <b>Authorized Redirect URI</b> field on creating client ID in Google Developers console.', $this->domain ),
+          'javascript_origins_desc' => __( 'Copy this value to <b>Authorized JavaScript Origins</b> field on creating client ID in Google Developers console.', $this->domain ),
         ) );
       }
 

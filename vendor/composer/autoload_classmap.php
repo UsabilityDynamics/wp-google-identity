@@ -2374,6 +2374,7 @@ return array(
     'UsabilityDynamics\\Term' => $vendorDir . '/usabilitydynamics/lib-utility/lib/class-term.php',
     'UsabilityDynamics\\UI\\Field' => $vendorDir . '/usabilitydynamics/lib-ui/lib/class-field.php',
     'UsabilityDynamics\\UI\\Field_Post' => $vendorDir . '/usabilitydynamics/lib-ui/lib/fields/class-post.php',
+    'UsabilityDynamics\\UI\\Field_Readonly' => $vendorDir . '/usabilitydynamics/lib-ui/lib/fields/class-readonly.php',
     'UsabilityDynamics\\UI\\Field_Checkbox' => $vendorDir . '/usabilitydynamics/lib-ui/lib/fields/class-checkbox.php',
     'UsabilityDynamics\\UI\\Field_Checkbox_Advanced' => $vendorDir . '/usabilitydynamics/lib-ui/lib/fields/class-checkbox-advanced.php',
     'UsabilityDynamics\\UI\\Field_Checkbox_List' => $vendorDir . '/usabilitydynamics/lib-ui/lib/fields/class-checkbox-list.php',

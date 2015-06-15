@@ -51,18 +51,6 @@
         "plugins": []
       },
       "licenses" : {},
-      "settings": {
-        "oauth": {
-          "google": {
-            "enabled": "",
-            "api_key": "",
-            "redirect_uri": "",
-            "javascript_origins": ""
-          },
-          "facebook": {},
-          "paypal": {}
-        }
-      },
       "ui": {
         "configuration": {
           "secondary_menu": {
@@ -77,11 +65,6 @@
             "id": "general",
             "name": "l10n.general",
             "desc": "l10n.general_menu_desc"
-          },
-          "oauth": {
-            "id": "oauth",
-            "name": "l10n.oauth",
-            "desc": "l10n.oauth_menu_desc"
           }
         },
         "sections": {
@@ -92,21 +75,18 @@
           },
           "google": {
             "id": "google",
-            "name": "l10n.google",
-            "menu": "oauth"
-          },
-          "facebook": {
-            "id": "facebook",
-            "name": "l10n.facebook",
-            "menu": "oauth"
-          },
-          "paypal": {
-            "id": "paypal",
-            "name": "l10n.paypal",
-            "menu": "oauth"
+            "name": "l10n.oauth_google",
+            "menu": "general"
           }
         },
         "fields": [
+          {
+            "id": "signin.enabled",
+            "name": "l10n.enabled",
+            "type": "checkbox_advanced",
+            "section": "signin",
+            "desc": "l10n.signin_enabled_desc"
+          },
           {
             "id": "signin.page",
             "name": "l10n.page",
@@ -128,13 +108,6 @@
             "desc": "l10n.signin_popup_desc"
           },
           {
-            "id": "oauth.google.enabled",
-            "name": "l10n.enabled",
-            "type": "checkbox_advanced",
-            "section": "google",
-            "desc": ""
-          },
-          {
             "id": "oauth.google.api_key",
             "name": "l10n.api_key",
             "section": "google",
@@ -143,28 +116,18 @@
           {
             "id": "oauth.google.redirect_uri",
             "name": "l10n.redirect_uri",
+            "type": "readonly",
+            "disabled": true,
             "section": "google",
-            "desc": ""
+            "desc": "l10n.redirect_uri_desc"
           },
           {
             "id": "oauth.google.javascript_origins",
             "name": "l10n.javascript_origins",
+            "type": "readonly",
+            "disabled": true,
             "section": "google",
-            "desc": ""
-          },
-          {
-            "id": "oauth.facebook.enabled",
-            "name": "l10n.enabled",
-            "type": "checkbox",
-            "section": "facebook",
-            "desc": ""
-          },
-          {
-            "id": "oauth.paypal.enabled",
-            "name": "l10n.enabled",
-            "type": "checkbox",
-            "section": "paypal",
-            "desc": ""
+            "desc": "l10n.javascript_origins_desc"
           }
         ]
       }
