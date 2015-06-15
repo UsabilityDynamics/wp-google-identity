@@ -17,7 +17,7 @@ namespace UsabilityDynamics\WPGI {
         $options = array(
           'id' => 'wpgi_signin',
           'params' => array(),
-          'description' => __( 'Renders Sign-In Button.', ud_get_wpp_av('domain') ),
+          'description' => __( 'Renders Sign-In Button.', ud_get_wp_google_identity('domain') ),
           'group' => 'Google Identity',
         );
         parent::__construct( $options );
