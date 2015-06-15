@@ -21,7 +21,9 @@
     "php": ">=5.3",
     "usabilitydynamics/lib-ui": "0.3.2",
     "usabilitydynamics/lib-settings": "0.2.3",
-    "usabilitydynamics/lib-wp-bootstrap": "1.1.2"
+    "usabilitydynamics/lib-wp-bootstrap": "1.1.2",
+    "usabilitydynamics/lib-wp-shortcode": "0.1.0",
+    "google/identity-toolkit-php-client": "1.0.1"
   },
   "require-dev": {
     "usabilitydynamics/lib-wp-phpunit": "~0.2",
