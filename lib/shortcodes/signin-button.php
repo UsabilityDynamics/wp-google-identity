@@ -27,7 +27,13 @@ namespace UsabilityDynamics\WPGI {
        *  Renders Shortcode
        */
       public function call( $atts = "" ) {
-        //$data = shortcode_atts( array(), $atts );
+        /**
+         * Be sure if Google OAuth is enabled.
+         * See Settings : WP Google Identity page on Admin panel.
+         */
+        if( ud_get_wp_google_identity( 'oauth.google.enabled' ) !== '1' ) {
+          return;
+        }
         ?><script type="text/javascript" src="//www.gstatic.com/authtoolkit/js/gitkit.js"></script>
         <link type=text/css rel=stylesheet href="//www.gstatic.com/authtoolkit/css/gitkit.css" />
         <script type=text/javascript>

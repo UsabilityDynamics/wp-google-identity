@@ -19,7 +19,7 @@
   },
   "require": {
     "php": ">=5.3",
-    "usabilitydynamics/lib-ui": "0.3.2",
+    "usabilitydynamics/lib-ui": "0.3.3",
     "usabilitydynamics/lib-settings": "0.2.3",
     "usabilitydynamics/lib-wp-bootstrap": "1.1.2",
     "usabilitydynamics/lib-wp-shortcode": "0.1.1",
@@ -50,7 +50,124 @@
         "modules": {},
         "plugins": []
       },
-      "licenses" : {}
+      "licenses" : {},
+      "settings": {
+        "oauth": {
+          "google": {
+            "enabled": "",
+            "api_key": "",
+            "redirect_uri": "",
+            "javascript_origins": ""
+          },
+          "facebook": {},
+          "paypal": {}
+        }
+      },
+      "ui": {
+        "configuration": {
+          "secondary_menu": {
+            "page_title": "l10n.wpgi_page_title",
+            "menu_title": "l10n.wpgi_settings",
+            "parent_slug": "options-general.php",
+            "menu_slug": "wp_google_identity"
+          }
+        },
+        "menu": {
+          "general": {
+            "id": "general",
+            "name": "l10n.general",
+            "desc": "l10n.general_menu_desc"
+          },
+          "oauth": {
+            "id": "oauth",
+            "name": "l10n.oauth",
+            "desc": "l10n.oauth_menu_desc"
+          }
+        },
+        "sections": {
+          "signin": {
+            "id": "signin",
+            "name": "l10n.signin_settings",
+            "menu": "general"
+          },
+          "google": {
+            "id": "google",
+            "name": "l10n.google",
+            "menu": "oauth"
+          },
+          "facebook": {
+            "id": "facebook",
+            "name": "l10n.facebook",
+            "menu": "oauth"
+          },
+          "paypal": {
+            "id": "paypal",
+            "name": "l10n.paypal",
+            "menu": "oauth"
+          }
+        },
+        "fields": [
+          {
+            "id": "signin.page",
+            "name": "l10n.page",
+            "type": "post",
+            "post_type": "page",
+            "field_type": "select_advanced",
+            "query_args": {
+              "post_status": "publish",
+              "posts_per_page": "-1"
+            },
+            "section": "signin",
+            "desc": "l10n.signin_page_desc"
+          },
+          {
+            "id": "signin.popup",
+            "name": "l10n.popup",
+            "type": "checkbox_advanced",
+            "section": "signin",
+            "desc": "l10n.signin_popup_desc"
+          },
+          {
+            "id": "oauth.google.enabled",
+            "name": "l10n.enabled",
+            "type": "checkbox_advanced",
+            "section": "google",
+            "desc": ""
+          },
+          {
+            "id": "oauth.google.api_key",
+            "name": "l10n.api_key",
+            "section": "google",
+            "desc": ""
+          },
+          {
+            "id": "oauth.google.redirect_uri",
+            "name": "l10n.redirect_uri",
+            "section": "google",
+            "desc": ""
+          },
+          {
+            "id": "oauth.google.javascript_origins",
+            "name": "l10n.javascript_origins",
+            "section": "google",
+            "desc": ""
+          },
+          {
+            "id": "oauth.facebook.enabled",
+            "name": "l10n.enabled",
+            "type": "checkbox",
+            "section": "facebook",
+            "desc": ""
+          },
+          {
+            "id": "oauth.paypal.enabled",
+            "name": "l10n.enabled",
+            "type": "checkbox",
+            "section": "paypal",
+            "desc": ""
+          }
+        ]
+      }
     }
   }
 }

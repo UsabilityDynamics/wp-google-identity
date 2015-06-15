@@ -300,7 +300,7 @@ namespace UsabilityDynamics\UI {
           $field[ 'field_name' ] = str_replace( '.', '|', $field[ 'id' ] );
           $field[ 'id' ] = sanitize_key( str_replace( '.', '_', $field[ 'id' ] ) );
           $field = apply_filters( "ud:ui:field", $field );
-          
+
           $field = call_user_func( array( $this->get_field_class_name( $field ), 'init' ), $field );
           
           if( !$field ) {

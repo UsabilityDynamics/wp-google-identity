@@ -141,6 +141,46 @@ namespace UsabilityDynamics\WPGI {
       public function deactivate() {}
 
       /**
+       * Return localization's list.
+       *
+       * Example:
+       * If schema contains l10n.{key} values:
+       *
+       * { 'config': 'l10n.hello_world' }
+       *
+       * the current function should return something below:
+       *
+       * return array(
+       *   'hello_world' => __( 'Hello World', $this->domain ),
+       * );
+       *
+       * @author peshkov@UD
+       * @return array
+       */
+      public function get_localization() {
+        return apply_filters( 'wpgi::get_localization', array(
+          'wpgi_settings' => __( 'WP Google Identity', $this->domain ),
+          'wpgi_page_title' => __( 'WP Google Identity Settings', $this->domain ),
+          'oauth' => __( 'OAuth', $this->domain ),
+          'oauth_menu_desc' => __( 'OAuth Settings', $this->domain ),
+          'google' => __( 'Google', $this->domain ),
+          'facebook' => __( 'Facebook', $this->domain ),
+          'paypal' => __( 'Paypal', $this->domain ),
+          'enabled' => __( 'Enabled', $this->domain ),
+          'api_key' => __( 'API Key', $this->domain ),
+          'redirect_uri' => __( 'Redirect URI', $this->domain ),
+          'javascript_origins' => __( 'Javascript Origins', $this->domain ),
+          'general' => __( 'General', $this->domain ),
+          'general_menu_desc' => __( 'General Settings', $this->domain ),
+          'signin_settings' => __( 'Sign-In Button', $this->domain ),
+          'page' => __( 'Page', $this->domain ),
+          'signin_page_desc' => __( 'Page which is used for Sign-Up', $this->domain ),
+          'popup' => __( 'Popup Enabled', $this->domain ),
+          'signin_popup_desc' => __( 'Show page in popup. If disabled, user will be redirected to Sign-Up page directly.', $this->domain ),
+        ) );
+      }
+
+      /**
        * Determine if Utility class contains missed method
        * in other case, just return NULL to prevent ERRORS
        *

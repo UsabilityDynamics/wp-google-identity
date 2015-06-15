@@ -13,7 +13,6 @@ namespace UsabilityDynamics\WPGI {
       /**
        * Determines template and renders it
        *
-       *
        */
       public function render( $template, $vars, $output = true ) {
         $name = apply_filters( $this->id . '_template_name', array( $template ), $this );
