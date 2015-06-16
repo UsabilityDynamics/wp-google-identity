@@ -75,7 +75,11 @@ namespace UsabilityDynamics\WPGI {
                */
               else {
                 /* Be sure that registration is enabled! */
-                if ( get_option( 'users_can_register' ) ) {
+                if( is_multisite() && get_site_option( 'registration' ) == 'none' ) {
+                  $this->logout();
+                } elseif ( !is_multisite() && get_option( 'users_can_register' ) == '0' ) {
+                  $this->logout();
+                } else {
 
                   $user_id = wp_insert_user( array(
                     'user_login' =>  $gitkitUser->getEmail(),
@@ -85,11 +89,6 @@ namespace UsabilityDynamics\WPGI {
                   ) );
 
                   $this->authenticate_by_id( $user_id );
-
-                } else {
-
-                  //@TODO
-                  die( 'WTF' );
 
                 }
 
