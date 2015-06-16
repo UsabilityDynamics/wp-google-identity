@@ -6,19 +6,20 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-  <!-- Copy and paste here the "Widget javascript" you downloaded from Developer Console as gitkit-widget.html -->
-
   <script type="text/javascript" src="//www.gstatic.com/authtoolkit/js/gitkit.js"></script>
   <link type="text/css" rel="stylesheet" href="//www.gstatic.com/authtoolkit/css/gitkit.css" />
   <script type="text/javascript">
     var config = {
-      apiKey: 'AIza...',
+      apiKey: '<?php echo ud_get_wp_google_identity( 'oauth.google.api_key' ) ?>',
       signInSuccessUrl: '/',
-      idps: ["google"],
+      idps: [ "google" ],
       oobActionUrl: '/',
-      siteName: 'this site',
-
+      siteName: '<?php echo get_bloginfo( 'name' ) ?>',
+      acUiConfig: {
+        title: '<?php printf( __( 'Sign In to %s', ud_get_wp_google_identity( 'domain' ) ), get_bloginfo( 'name' ) ); ?>',
+        favicon: '<?php echo trailingslashit( home_url() ); ?>favicon.ico'
+      }
+      <?php
       // Optional - URL of site ToS (linked and req. consent for signup)
       // tosUrl: 'http://example.com/terms_of_service',
 
@@ -30,14 +31,6 @@
       //                  sign in button’. See above
       // cookieName: ‘example_cookie’,
 
-      // Optional - UI configuration for accountchooser.com
-      /*acUiConfig: {
-       title: 'Sign in to example.com',
-       favicon: 'http://example.com/favicon.ico',
-       branding: 'http://example.com/account_choooser_branding'
-       },
-       */
-
       // Optional - Function to send ajax POST requests to your Recover URL
       //            Intended for CSRF protection, see Advanced Topics
       //      url - URL to send the POST request to
@@ -47,6 +40,7 @@
       /*ajaxSender: function(url, data, completed) {
        },
        */
+      ?>
     };
     // The HTTP POST body should be escaped by the server to prevent XSS
     window.google.identitytoolkit.start(
@@ -54,8 +48,6 @@
       config,
       'JAVASCRIPT_ESCAPED_POST_BODY');
   </script>
-
-  <!-- End modification -->
 
 </head>
 <body>
