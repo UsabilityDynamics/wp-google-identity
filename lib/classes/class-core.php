@@ -42,19 +42,102 @@ namespace UsabilityDynamics\WPGI {
         }
 
         try {
+
           $gitkitClient = \Gitkit_Client::createFromFile( $config_file );
           $gitkitUser = $gitkitClient->getUserInRequest();
+
+          if( !empty( $gitkitUser ) ) {
+
+            /**
+             *
+             */
+            if( is_user_logged_in() ) {
+              $user = get_user_by( 'id', get_current_user_id() );
+              if( $user->user_email !== $gitkitUser->getEmail() ) {
+                $this->logout();
+              }
+            }
+            /**
+             *
+             */
+            else {
+
+              $user = get_user_by( 'email', $gitkitUser->getEmail() );
+
+              /**
+               * Login already existing user
+               */
+              if( $user && !is_wp_error( $user ) ) {
+                $this->authenticate_by_id( $user->ID );
+              }
+              /**
+               * Create new user
+               */
+              else {
+                /* Be sure that registration is enabled! */
+                if ( get_option( 'users_can_register' ) ) {
+
+                  $user_id = wp_insert_user( array(
+                    'user_login' =>  $gitkitUser->getEmail(),
+                    'user_email' => $gitkitUser->getEmail(),
+                    'user_pass' => wp_generate_password(),
+                    'display_name' => $gitkitUser->getDisplayName(),
+                  ) );
+
+                  $this->authenticate_by_id( $user_id );
+
+                } else {
+
+                  //@TODO
+                  die( 'WTF' );
+
+                }
+
+              }
+
+            }
+
+          } else {
+
+            if( is_user_logged_in() ) {
+              $this->logout();
+            }
+
+          }
+
         } catch ( \Exception $e ) {
 
-          //*
-          echo "<pre>";
-          print_r( $e->getMessage() );
-          echo "</pre>";
-          die();
-          //*/
+          // echo "<pre>"; print_r( $e->getMessage() ); echo "</pre>"; die();
+
+          if( is_user_logged_in() ) {
+            $this->logout();
+          }
 
         }
 
+      }
+
+      /**
+       * Authenticate user by ID
+       */
+      private function authenticate_by_id( $id ) {
+        wp_logout();
+        wp_set_current_user ( $id );
+        wp_set_auth_cookie  ( $id );
+        $redirect_to = home_url();
+        wp_safe_redirect( $redirect_to );
+        exit();
+      }
+
+      /**
+       * Safe Logout
+       */
+      private function logout() {
+        setcookie( 'gtoken', ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH, COOKIE_DOMAIN );
+        wp_logout();
+        $redirect_to = home_url();
+        wp_safe_redirect( $redirect_to );
+        exit();
       }
 
       /**

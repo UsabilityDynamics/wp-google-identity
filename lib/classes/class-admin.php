@@ -51,13 +51,13 @@ namespace UsabilityDynamics\WPGI {
               $permalink = get_permalink( $page_id );
             }
             if( !empty( $permalink ) ) {
-              $value = trailingslashit( $permalink );
+              $value = untrailingslashit( $permalink );
             } else {
               $value = strtoupper( __( 'Setup Sign-In Page at first', ud_get_wp_google_identity( 'domain' ) ) );
             }
             break;
           case 'oauth_google_javascript_origins':
-            $value = trailingslashit( home_url() );
+            $value = untrailingslashit( home_url() );
             break;
         }
         return $value;

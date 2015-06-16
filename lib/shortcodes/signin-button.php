@@ -42,6 +42,11 @@ namespace UsabilityDynamics\WPGI {
         if( empty( $signin_page_id ) || !get_permalink( $signin_page_id ) ) {
           return;
         }
+        /** Be sure that config file is set and exists. */
+        $config_file = ud_get_wp_google_identity( 'oauth.google.config_file_path' );
+        if( !file_exists( $config_file ) ) {
+          return;
+        }
         ?><script type="text/javascript" src="//www.gstatic.com/authtoolkit/js/gitkit.js"></script>
         <link type=text/css rel=stylesheet href="//www.gstatic.com/authtoolkit/css/gitkit.css" />
         <script type=text/javascript>
