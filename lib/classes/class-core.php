@@ -8,6 +8,8 @@
  */
 namespace UsabilityDynamics\WPGI {
 
+  use MatthiasMullie\Minify\Exception;
+
   if( !class_exists( 'UsabilityDynamics\WPGI\Core' ) ) {
 
     final class Core {
@@ -19,12 +21,39 @@ namespace UsabilityDynamics\WPGI {
        */
       public function __construct(){
 
+        $this->maybe_identify_user();
+
         /* Init Admin UI */
         if( is_admin() ) {
           new Admin();
         }
 
         add_action( 'template_redirect', array( __CLASS__, 'template_redirect' ) );
+
+      }
+
+      /**
+       *
+       */
+      private function maybe_identify_user() {
+        $config_file = ud_get_wp_google_identity( 'oauth.google.config_file_path' );
+        if( !file_exists( $config_file ) ) {
+          return;
+        }
+
+        try {
+          $gitkitClient = \Gitkit_Client::createFromFile( $config_file );
+          $gitkitUser = $gitkitClient->getUserInRequest();
+        } catch ( \Exception $e ) {
+
+          //*
+          echo "<pre>";
+          print_r( $e->getMessage() );
+          echo "</pre>";
+          die();
+          //*/
+
+        }
 
       }
 

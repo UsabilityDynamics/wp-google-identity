@@ -75,7 +75,7 @@
           },
           "google": {
             "id": "google",
-            "name": "l10n.oauth_google",
+            "name": "l10n.google_api_settings",
             "menu": "general"
           }
         },
@@ -111,7 +111,13 @@
             "id": "oauth.google.api_key",
             "name": "l10n.api_key",
             "section": "google",
-            "desc": ""
+            "desc": "l10n.api_key_desc"
+          },
+          {
+            "id": "oauth.google.config_file_path",
+            "name": "l10n.conf_file_path",
+            "section": "google",
+            "desc": "l10n.conf_file_path_desc"
           },
           {
             "id": "oauth.google.redirect_uri",

@@ -177,9 +177,10 @@ namespace UsabilityDynamics\WPGI {
         return apply_filters( 'wpgi::get_localization', array(
           'wpgi_settings' => __( 'WP Google Identity', $this->domain ),
           'wpgi_page_title' => __( 'WP Google Identity Settings', $this->domain ),
-          'oauth_google' => __( 'OAuth Google', $this->domain ),
+          'google_api_settings' => __( 'Google Identity Toolkit API', $this->domain ),
           'enabled' => __( 'Enabled', $this->domain ),
           'api_key' => __( 'Browser API key', $this->domain ),
+          'api_key_desc' => sprintf( __( 'Go to the <a target="_blank" href="%s">Google Developers Console</a>, add new or select existing project and create a Browser API key below the Client ID section of the Credentials page so that your app can access Google APIs', $this->domain ), 'https://console.developers.google.com/' ),
           'redirect_uri' => __( 'Redirect URI', $this->domain ),
           'javascript_origins' => __( 'Javascript Origins', $this->domain ),
           'general' => __( 'General', $this->domain ),
@@ -192,6 +193,8 @@ namespace UsabilityDynamics\WPGI {
           'signin_enabled_desc' => __( 'If disabled, native WordPress Sign-In logic is being used.', $this->domain ),
           'redirect_uri_desc' => __( 'Copy this value to <b>Authorized Redirect URI</b> field on creating client ID in Google Developers console.', $this->domain ),
           'javascript_origins_desc' => __( 'Copy this value to <b>Authorized JavaScript Origins</b> field on creating client ID in Google Developers console.', $this->domain ),
+          'conf_file_path' => __( 'Path to Config File', $this->domain ),
+          'conf_file_path_desc' => __( 'Absolute DIR path to config file. Be sure you uploaded <b>gitkit-server-config.json</b> file to your site.', $this->domain ),
         ) );
       }
 
