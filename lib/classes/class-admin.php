@@ -72,7 +72,7 @@ namespace UsabilityDynamics\WPGI {
 
         $screen = get_current_screen();
 
-        if( $screen->id = 'settings_page_wp_google_identity' ) {
+        if( $screen->id == 'settings_page_wp_google_identity' ) {
           wp_enqueue_style( 'wpgi-admin', ud_get_wp_google_identity()->path( 'static/styles/admin.css', 'url' ) );
         }
 
