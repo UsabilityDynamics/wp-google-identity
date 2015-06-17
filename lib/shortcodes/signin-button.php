@@ -37,14 +37,22 @@ namespace UsabilityDynamics\WPGI {
         if( empty( $api_key ) ) {
           return;
         }
+        $client_id = ud_get_wp_google_identity( 'oauth.google.client_id' );
+        if( empty( $client_id ) ) {
+          return;
+        }
+        $service_account_email = ud_get_wp_google_identity( 'oauth.google.service_account_email' );
+        if( empty( $service_account_email ) ) {
+          return;
+        }
         /** Be sure that Sign-In page is set. */
         $signin_page_id = ud_get_wp_google_identity( 'signin.page' );
         if( empty( $signin_page_id ) || !get_permalink( $signin_page_id ) ) {
           return;
         }
         /** Be sure that config file is set and exists. */
-        $config_file = ud_get_wp_google_identity( 'oauth.google.config_file_path' );
-        if( !file_exists( $config_file ) ) {
+        $private_key_file = ud_get_wp_google_identity( 'oauth.google.private_key_file' );
+        if( !file_exists( $private_key_file ) ) {
           return;
         }
         ?><script type="text/javascript" src="//www.gstatic.com/authtoolkit/js/gitkit.js"></script>

@@ -89,7 +89,7 @@
           },
           {
             "id": "signin.page",
-            "name": "l10n.page",
+            "name": "l10n.signin_page",
             "type": "post",
             "post_type": "page",
             "field_type": "select_advanced",
@@ -108,16 +108,24 @@
             "desc": "l10n.signin_popup_desc"
           },
           {
-            "id": "oauth.google.api_key",
-            "name": "l10n.api_key",
-            "section": "google",
-            "desc": "l10n.api_key_desc"
+            "id": "signin.disable_native_login",
+            "name": "l10n.disable_native_login",
+            "type": "checkbox_advanced",
+            "section": "signin",
+            "desc": "l10n.disable_native_login_desc"
           },
           {
-            "id": "oauth.google.config_file_path",
-            "name": "l10n.conf_file_path",
-            "section": "google",
-            "desc": "l10n.conf_file_path_desc"
+            "id": "signin.signin_success_page",
+            "name": "l10n.signin_success_page",
+            "type": "post",
+            "post_type": "page",
+            "field_type": "select_advanced",
+            "query_args": {
+              "post_status": "publish",
+              "posts_per_page": "-1"
+            },
+            "section": "signin",
+            "desc": "l10n.signin_success_page_desc"
           },
           {
             "id": "oauth.google.redirect_uri",
@@ -134,6 +142,30 @@
             "disabled": true,
             "section": "google",
             "desc": "l10n.javascript_origins_desc"
+          },
+          {
+            "id": "oauth.google.api_key",
+            "name": "l10n.api_key",
+            "section": "google",
+            "desc": "l10n.api_key_desc"
+          },
+          {
+            "id": "oauth.google.client_id",
+            "name": "l10n.client_id",
+            "section": "google",
+            "desc": "l10n.client_id_desc"
+          },
+          {
+            "id": "oauth.google.service_account_email",
+            "name": "l10n.service_account_email",
+            "section": "google",
+            "desc": "l10n.service_account_email_desc"
+          },
+          {
+            "id": "oauth.google.private_key_file",
+            "name": "l10n.private_key_file",
+            "section": "google",
+            "desc": "l10n.private_key_file_desc"
           }
         ]
       }

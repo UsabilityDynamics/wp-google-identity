@@ -1,5 +1,15 @@
+#uis_form #tabs {
+  margin-top: 0;
+}
+#uis_form #tabs .ui-tabs-nav {
+  display: none;
+}
+#uis_form #tabs .ui-tabs-panel {
+  border: 0;
+  padding-top: 0;
+}
 #uis_form .sui-text {
-  min-width: 300px;
+  min-width: 400px;
 }
 #uis_form .select2-selection__rendered {
   min-width: 220px;

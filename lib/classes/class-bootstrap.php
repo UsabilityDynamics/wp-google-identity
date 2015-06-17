@@ -30,6 +30,8 @@ namespace UsabilityDynamics\WPGI {
          */
         $this->define_settings();
 
+        $this->validate_settings();
+
         /**
          * Load Plugin logic here...
          */
@@ -85,25 +87,41 @@ namespace UsabilityDynamics\WPGI {
           )
         ));
 
-        /**
-         * Probably add default settings from composer.json
-         * In some cases it's needed to prevent overwriting settings on data saving.
-         *
-         * @see: composer.json
-         * {
-         *   extra: {
-         *     schemas: {
-         *       settings: {
-         *         // Here we go.
-         *       }
-         *     }
-         *   }
-         * }
-         *
-         */
-        $default = $this->get_schema('extra.schemas.settings');
-        if (is_array($default)) {
-          $this->set(\UsabilityDynamics\Utility::extend($default, $this->get()));
+      }
+
+      /**
+       * Validate Google Identity Toolkit API settings
+       *
+       */
+      private function validate_settings() {
+
+        /* Show errors only if WP Google Identity Sign-In enabled. */
+        if( $this->get( 'signin.enabled' ) == '1' ) {
+
+          /** Be sure that Browser API Key is set. */
+          $api_key = $this->get( 'oauth.google.api_key' );
+          if( empty( $api_key ) ) {
+            $this->errors->add( __( '<b>Browser API Key</b> is not set.', $this->get( 'domain' ) ) );
+          }
+          $client_id = $this->get( 'oauth.google.client_id' );
+          if( empty( $client_id ) ) {
+            $this->errors->add( __( '<b>Client ID</b> is not set.', $this->get( 'domain' ) ) );
+          }
+          $service_account_email = $this->get( 'oauth.google.service_account_email' );
+          if( empty( $service_account_email ) ) {
+            $this->errors->add( __( '<b>Service Account Email</b> is not set.', $this->get( 'domain' ) ) );
+          }
+          /** Be sure that Sign-In page is set. */
+          $signin_page_id = $this->get( 'signin.page' );
+          if( empty( $signin_page_id ) ) {
+            $this->errors->add( __( '<b>Sign-In Page</b> is not set.', $this->get( 'domain' ) ) );
+          }
+          /** Be sure that config file is set and exists. */
+          $private_key_file = $this->get( 'oauth.google.private_key_file' );
+          if( empty( $private_key_file ) || !file_exists( $private_key_file ) ) {
+            $this->errors->add( __( '<b>Private Key path</b> it not set or file does not exist.', $this->get( 'domain' ) ) );
+          }
+
         }
 
       }
@@ -185,16 +203,24 @@ namespace UsabilityDynamics\WPGI {
           'javascript_origins' => __( 'Javascript Origins', $this->domain ),
           'general' => __( 'General', $this->domain ),
           'general_menu_desc' => $description,
-          'signin_settings' => __( 'Sign-In Button', $this->domain ),
-          'page' => __( 'Page', $this->domain ),
-          'signin_page_desc' => __( 'Page which is used for Sign-Up', $this->domain ),
+          'signin_settings' => __( 'Sign-In Process', $this->domain ),
+          'signin_page' => __( 'Sign-In Page', $this->domain ),
+          'signin_page_desc' => __( 'Page which is used for Sign-In. Just add any page and select it here. Do not worry about content, - it will be automatically overwritten.', $this->domain ),
           'popup' => __( 'Popup Enabled', $this->domain ),
-          'signin_popup_desc' => __( 'Show page in popup. If disabled, user will be redirected to Sign-Up page directly.', $this->domain ),
+          'signin_popup_desc' => __( 'Show Sign-In page in popup. If disabled, user will be redirected to Sign-Up page directly.', $this->domain ),
           'signin_enabled_desc' => __( 'If disabled, native WordPress Sign-In logic is being used.', $this->domain ),
-          'redirect_uri_desc' => __( 'Copy this value to <b>Authorized Redirect URI</b> field on creating client ID in Google Developers console.', $this->domain ),
-          'javascript_origins_desc' => __( 'Copy this value to <b>Authorized JavaScript Origins</b> field on creating client ID in Google Developers console.', $this->domain ),
-          'conf_file_path' => __( 'Path to Config File', $this->domain ),
-          'conf_file_path_desc' => __( 'Absolute DIR path to config file. Be sure you uploaded <b>gitkit-server-config.json</b> file to your site.', $this->domain ),
+          'redirect_uri_desc' => sprintf( __( 'Copy this value to <b>Authorized Redirect URI</b> field on creating client ID in <a target="_blank" href="%s">Google Developers console</a>.', $this->domain ), 'https://console.developers.google.com/' ),
+          'javascript_origins_desc' => sprintf( __( 'Copy this value to <b>Authorized JavaScript Origins</b> field on creating client ID in <a target="_blank" href="%s">Google Developers console</a>.', $this->domain ), 'https://console.developers.google.com/' ),
+          'private_key_file' => __( 'Private Key file (p12)', $this->domain ),
+          'private_key_file_desc' => __( 'Upload private key file (p12) to your site and set absolute DIR path to it here.', $this->domain ),
+          'client_id' => __( 'Client ID', $this->domain ),
+          'client_id_desc' => __( 'Be sure you download Server-side configuration file (<b>gitkit-server-config.json</b>) from Identity Toolkit original console. Open the file and copy value of <b>clientId</b>.', $this->domain ),
+          'service_account_email' => __( 'Service Account Email', $this->domain ),
+          'service_account_email_desc' => __( 'Be sure you download Server-side configuration file (<b>gitkit-server-config.json</b>) from Identity Toolkit original console. Open the file and copy value of <b>serviceAccountEmail</b>.', $this->domain ),
+          'disable_native_login' => __( 'Disable native login page', $this->domain ),
+          'disable_native_login_desc' => __( 'Optional. User will be redirected to front page. <b>Use it very carefully!</b>', $this->domain ),
+          'signin_success_page' => __( 'Sign-In Success page', $this->domain ),
+          'signin_success_page_desc' => __( 'Optional. Where user will be redirected to after successful login.', $this->domain ),
         ) );
       }
 
