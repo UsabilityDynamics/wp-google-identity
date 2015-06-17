@@ -16,7 +16,7 @@ namespace UsabilityDynamics\WPGI {
        * @protected
        * @static
        * @property $instance
-       * @type UsabilityDynamics\WPGI\Bootstrap object
+       * @type \UsabilityDynamics\WPGI\Bootstrap object
        */
       protected static $instance = null;
       
