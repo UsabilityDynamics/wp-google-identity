@@ -56,7 +56,8 @@ namespace UsabilityDynamics\WPGI {
       }
 
       /**
-       * Handles WordPress login, logout and user registration.
+       * Handles WordPress authentication, logout and user registration.
+       *
        * Note: Google credentials must be set.
        */
       static public function identify_user() {
@@ -84,8 +85,6 @@ namespace UsabilityDynamics\WPGI {
 
         try {
 
-          //$gitkitClient = \Gitkit_Client::createFromFile( $config_file );
-
           $gitkitClient = \Gitkit_Client::createFromConfig( array(
             "clientId" => $client_id,
             "serviceAccountEmail" => $service_account_email,
@@ -93,20 +92,53 @@ namespace UsabilityDynamics\WPGI {
             "widgetUrl" => trailingslashit( get_permalink( $signin_page_id ) ),
             "cookieName" => "gtoken",
           ) );
+
           $gitkitUser = $gitkitClient->getUserInRequest();
 
           if( !empty( $gitkitUser ) ) {
 
             /**
-             *
+             * Check already logged in user
              */
             if( is_user_logged_in() ) {
+
               $user = get_user_by( 'id', get_current_user_id() );
+
+              /**
+               * Prevent using non-provider's account
+               */
               if( $user->user_email !== $gitkitUser->getEmail() ) {
-                self::logout();
+                throw new \Exception( __( 'User Session Error Occurred.', ud_get_wp_google_identity( 'domain' ) ) );
               }
+
+              /**
+               * It should not happen
+               * but we get access in case if Account Chooser user ID is stored in WP usermeta
+               * and they are equal
+               */
+              else if( !$gitkitUser->getProviderId() ) {
+                $user_id = get_user_meta( $user->ID, 'wpgi_provider_custom', true );
+                if( empty( $user_id ) || $user_id !== $gitkitUser->getUserId() ) {
+                  /* Remove User from Account Chooser */
+                  $gitkitClient->deleteUser( $gitkitUser->getUserId() );
+                  throw new \Exception( __( 'Invalid Account.', ud_get_wp_google_identity( 'domain' ) ) );
+                }
+              }
+
+              /**
+               * Break login if email is not verified
+               * It's only related to case when email belongs to provider
+               */
+              else if( !$gitkitUser->isEmailVerified() ) {
+                /* Remove User from Account Chooser */
+                $gitkitClient->deleteUser( $gitkitUser->getUserId() );
+                throw new \Exception( __( 'Email is not verified.', ud_get_wp_google_identity( 'domain' ) ) );
+              }
+
             }
+
             /**
+             * Maybe authenticate user
              *
              */
             else {
@@ -114,11 +146,37 @@ namespace UsabilityDynamics\WPGI {
               $user = get_user_by( 'email', $gitkitUser->getEmail() );
 
               /**
-               * Login already existing user
+               * May be log in already existing user
                */
               if( $user && !is_wp_error( $user ) ) {
-                self::authenticate_by_id( $user->ID );
+
+                /**
+                 * It should not happen
+                 * but we get access in case if Account Chooser user ID is stored in WP usermeta
+                 * and they are equal
+                 */
+                if( !$gitkitUser->getProviderId() ) {
+                  $user_id = get_user_meta( $user->ID, 'wpgi_provider_custom', true );
+                  if( empty( $user_id ) || $user_id !== $gitkitUser->getUserId() ) {
+                    /* Remove User from Account Chooser */
+                    $gitkitClient->deleteUser( $gitkitUser->getUserId() );
+                    throw new \Exception( __( 'Invalid Account.', ud_get_wp_google_identity( 'domain' ) ) );
+                  }
+                }
+                /**
+                 * Break login if email is not verified
+                 * It's only related to case when email belongs to provider
+                 */
+                else if( !$gitkitUser->isEmailVerified() ) {
+                  /* Remove User from Account Chooser */
+                  $gitkitClient->deleteUser( $gitkitUser->getUserId() );
+                  throw new \Exception( __( 'Email is not verified.', ud_get_wp_google_identity( 'domain' ) ) );
+                }
+
+                self::authenticate_by_id( $user->ID, $gitkitUser );
+
               }
+
               /**
                * Create new user
                */
@@ -137,7 +195,7 @@ namespace UsabilityDynamics\WPGI {
                     'display_name' => $gitkitUser->getDisplayName(),
                   ) );
 
-                  self::authenticate_by_id( $user_id );
+                  self::authenticate_by_id( $user_id, $gitkitUser );
 
                 }
 
@@ -159,7 +217,7 @@ namespace UsabilityDynamics\WPGI {
 
           self::clear_google_session();
 
-          if( is_user_logged_in() && !current_user_can( 'manage_options' ) ) {
+          if( is_user_logged_in() ) {
             self::logout();
           }
 
@@ -169,10 +227,39 @@ namespace UsabilityDynamics\WPGI {
 
       /**
        * Authenticate user by ID
+       *
+       * @param int $user_id
+       * @param object $gitkitUser
+       * @throws \Exception
        */
-      static public function authenticate_by_id( $id ) {
-        wp_set_current_user ( $id );
-        wp_set_auth_cookie  ( $id );
+      static public function authenticate_by_id( $user_id, $gitkitUser ) {
+
+        /**
+         * Before proceeding,
+         * we're updating provider's information
+         * for current user.
+         */
+        if( !$gitkitUser->getProviderId() ) {
+          $meta = 'wpgi_provider_custom';
+        } else {
+          $meta = sanitize_key( 'wpgi_provider_' . $gitkitUser->getProviderId() );
+        }
+        $id = get_user_meta( $user_id, $meta, true );
+        if( !empty( $id ) ) {
+          if( $id !== $gitkitUser->getUserId() ) {
+            throw new \Exception( 'Invalid Account', ud_get_wp_google_identity( 'domain' ) );
+          }
+        } else {
+          update_user_meta( $user_id, $meta, $gitkitUser->getUserId() );
+        }
+
+        wp_set_current_user ( $user_id );
+        wp_set_auth_cookie  ( $user_id );
+
+        /**
+         * Determine if sign-in successful page is set.
+         * If not, we're using home url.
+         */
         $redirect_to = ud_get_wp_google_identity( 'signin.signin_success_page' );
         if( !empty( $redirect_to ) ) {
           $redirect_to = get_permalink($redirect_to);
@@ -180,8 +267,11 @@ namespace UsabilityDynamics\WPGI {
         if( empty( $redirect_to ) ) {
           $redirect_to = home_url();
         }
+
         wp_safe_redirect( $redirect_to );
+
         exit();
+
       }
 
       /**
