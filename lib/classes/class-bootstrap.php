@@ -221,6 +221,21 @@ namespace UsabilityDynamics\WPGI {
           'disable_native_login_desc' => __( 'Optional. User will be redirected to front page. <b>Use it very carefully!</b>', $this->domain ),
           'signin_success_page' => __( 'Sign-In Success page', $this->domain ),
           'signin_success_page_desc' => __( 'Optional. Where user will be redirected to after successful login.', $this->domain ),
+          'enabled_providers' => __( 'Enabled Providers', $this->domain ),
+          'google' => __( 'Google', $this->domain ),
+          'provider_google_desc' => __( 'Google OAuth CLient ID must be set on Identity Toolkit\'s original console.', $this->domain ),
+          'yahoo' => __( 'Yahoo', $this->domain ),
+          'provider_yahoo_desc' => __( '', $this->domain ),
+          'aol' => __( 'AOL', $this->domain ),
+          'provider_aol_desc' => __( '', $this->domain ),
+          'microsoft' => __( 'Microsoft', $this->domain ),
+          'provider_microsoft_desc' => __( 'Client ID and Secret key must be set on Identity Toolkit\'s original console.', $this->domain ),
+          'facebook' => __( 'Facebook', $this->domain ),
+          'provider_facebook_desc' => __( '', $this->domain ),
+          'paypal' => __( 'Paypal', $this->domain ),
+          'provider_paypal_desc' => __( 'Client ID and Secret key must be set on Identity Toolkit\'s original console.', $this->domain ),
+          'password_account' => __( 'Password Account', $this->domain ),
+          'provider_password_account_desc' => __( 'Custom Password Account which does not belong to any provider. It will not work for already existing WordPress users.', $this->domain ),
         ) );
       }
 

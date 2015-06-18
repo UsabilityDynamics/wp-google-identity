@@ -73,6 +73,11 @@
             "name": "l10n.signin_settings",
             "menu": "general"
           },
+          "providers": {
+            "id": "providers",
+            "name": "l10n.enabled_providers",
+            "menu": "general"
+          },
           "google": {
             "id": "google",
             "name": "l10n.google_api_settings",
@@ -126,6 +131,55 @@
             },
             "section": "signin",
             "desc": "l10n.signin_success_page_desc"
+          },
+          {
+            "id": "providers.google",
+            "name": "l10n.google",
+            "type": "checkbox_advanced",
+            "section": "providers",
+            "desc": "l10n.provider_google_desc"
+          },
+          {
+            "id": "providers.yahoo",
+            "name": "l10n.yahoo",
+            "type": "checkbox_advanced",
+            "section": "providers",
+            "desc": "l10n.provider_yahoo_desc"
+          },
+          {
+            "id": "providers.aol",
+            "name": "l10n.aol",
+            "type": "checkbox_advanced",
+            "section": "providers",
+            "desc": "l10n.provider_aol_desc"
+          },
+          {
+            "id": "providers.microsoft",
+            "name": "l10n.microsoft",
+            "type": "checkbox_advanced",
+            "section": "providers",
+            "desc": "l10n.provider_microsoft_desc"
+          },
+          {
+            "id": "providers.facebook",
+            "name": "l10n.facebook",
+            "type": "checkbox_advanced",
+            "section": "providers",
+            "desc": "l10n.provider_facebook_desc"
+          },
+          {
+            "id": "providers.paypal",
+            "name": "l10n.paypal",
+            "type": "checkbox_advanced",
+            "section": "providers",
+            "desc": "l10n.provider_paypal_desc"
+          },
+          {
+            "id": "providers.password_account",
+            "name": "l10n.password_account",
+            "type": "checkbox_advanced",
+            "section": "providers",
+            "desc": "l10n.provider_password_account_desc"
           },
           {
             "id": "oauth.google.redirect_uri",

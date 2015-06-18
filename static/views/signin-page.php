@@ -2,6 +2,20 @@
 /**
  * Sign-In page
  */
+
+$providers = array();
+foreach( ud_get_wp_google_identity( 'providers', array() ) as $provider => $v ) {
+  if( $v == '1' && $provider !== 'password_account' ) {
+    array_push( $providers, $provider );
+  }
+}
+
+if( !empty( $providers ) ) {
+  $providers = '"' . implode( '","', $providers ) . '"';
+} else {
+  $providers = '';
+}
+
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +26,7 @@
     var config = {
       apiKey: '<?php echo ud_get_wp_google_identity( 'oauth.google.api_key' ) ?>',
       signInSuccessUrl: '/',
-      idps: [ "google", "facebook" ],
+      idps: [ <?php echo $providers; ?> ],
       oobActionUrl: '/',
       siteName: '<?php echo get_bloginfo( 'name' ) ?>',
       acUiConfig: {
@@ -24,9 +38,16 @@
     window.google.identitytoolkit.start(
       '#gitkitWidgetDiv', // accepts any CSS selector
       config,
-      'JAVASCRIPT_ESCAPED_POST_BODY');
+      <?php if( ud_get_wp_google_identity( 'providers.yahoo' ) == '1' ) {
+        ?>JSON.parse('<?php echo json_encode(file_get_contents("php://input")); ?>')<?php
+      } else {
+        ?>'JAVASCRIPT_ESCAPED_POST_BODY'<?php
+      } ?>);
   </script>
-
+  <?php if( ud_get_wp_google_identity( 'providers.password_account' ) !== '1' ) : ?>
+    <style>form .gitkit-recommend-option, form .gitkit-text { display: none; }</style>
+  <?php endif; ?>
+  <?php do_action( 'wpgi_signin_page_header' ); ?>
 </head>
 <body>
 

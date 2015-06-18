@@ -117,6 +117,14 @@ namespace UsabilityDynamics\WPGI {
                * and they are equal
                */
               else if( !$gitkitUser->getProviderId() ) {
+
+                /** Determine if custom Password Account is enabled by plugin's settings. */
+                if( ud_get_wp_google_identity( 'providers.password_account' ) !== '1' ) {
+                  /* Remove User from Account Chooser */
+                  $gitkitClient->deleteUser( $gitkitUser->getUserId() );
+                  throw new \Exception( __( 'Sorry, but Password Account is not enabled. Please, use any other provider for sign in.', ud_get_wp_google_identity( 'domain' ) ) );
+                }
+
                 $user_id = get_user_meta( $user->ID, 'wpgi_provider_custom', true );
                 if( empty( $user_id ) || $user_id !== $gitkitUser->getUserId() ) {
                   /* Remove User from Account Chooser */
@@ -156,12 +164,21 @@ namespace UsabilityDynamics\WPGI {
                  * and they are equal
                  */
                 if( !$gitkitUser->getProviderId() ) {
+
+                  /** Determine if custom Password Account is enabled by plugin's settings. */
+                  if( ud_get_wp_google_identity( 'providers.password_account' ) !== '1' ) {
+                    /* Remove User from Account Chooser */
+                    $gitkitClient->deleteUser( $gitkitUser->getUserId() );
+                    throw new \Exception( __( 'Sorry, but Password Account is not enabled. Please, use any other provider for sign in.', ud_get_wp_google_identity( 'domain' ) ) );
+                  }
+
                   $user_id = get_user_meta( $user->ID, 'wpgi_provider_custom', true );
                   if( empty( $user_id ) || $user_id !== $gitkitUser->getUserId() ) {
                     /* Remove User from Account Chooser */
                     $gitkitClient->deleteUser( $gitkitUser->getUserId() );
                     throw new \Exception( __( 'Invalid Account.', ud_get_wp_google_identity( 'domain' ) ) );
                   }
+
                 }
                 /**
                  * Break login if email is not verified
