@@ -1,0 +1,18 @@
+#wpgi_error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  line-height: 18px;
+  height: 18px;
+  font-size: 14px;
+  text-align: center;
+  z-index: 9999;
+}
+#wpgi_error label {
+  font-weight: 100;
+  font-size: 14px;
+}
+#wpgi_error a {
+  font-size: 14px;
+}

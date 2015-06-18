@@ -27,6 +27,8 @@ namespace UsabilityDynamics\WPGI {
 
         add_action( 'template_redirect', array( __CLASS__, 'template_redirect' ) );
 
+        add_action( 'template_redirect', array( __CLASS__, 'maybe_show_error_message' ) );
+
         /**
          * Clear Google Session on WordPress logout
          */
@@ -129,7 +131,7 @@ namespace UsabilityDynamics\WPGI {
                 if( empty( $user_id ) || $user_id !== $gitkitUser->getUserId() ) {
                   /* Remove User from Account Chooser */
                   $gitkitClient->deleteUser( $gitkitUser->getUserId() );
-                  throw new \Exception( __( 'Invalid Account.', ud_get_wp_google_identity( 'domain' ) ) );
+                  throw new \Exception( __( 'The Account with provided email already exists. You can use Custom Password Account only for creating new Account on site.', ud_get_wp_google_identity( 'domain' ) ) );
                 }
               }
 
@@ -176,7 +178,7 @@ namespace UsabilityDynamics\WPGI {
                   if( empty( $user_id ) || $user_id !== $gitkitUser->getUserId() ) {
                     /* Remove User from Account Chooser */
                     $gitkitClient->deleteUser( $gitkitUser->getUserId() );
-                    throw new \Exception( __( 'Invalid Account.', ud_get_wp_google_identity( 'domain' ) ) );
+                    throw new \Exception( __( 'The Account with provided email already exists. You can use Custom Password Account only for creating new Account on site.', ud_get_wp_google_identity( 'domain' ) ) );
                   }
 
                 }
@@ -231,6 +233,8 @@ namespace UsabilityDynamics\WPGI {
         } catch ( \Exception $e ) {
 
           //echo "<pre>"; print_r( $e->getMessage() ); echo "</pre>"; die();
+
+          set_transient( 'wpgi_error_message', $e->getMessage() );
 
           self::clear_google_session();
 
@@ -321,6 +325,25 @@ namespace UsabilityDynamics\WPGI {
         if( ud_get_wp_google_identity( 'signin.page' ) == $wp_query->queried_object_id ) {
           include( ud_get_wp_google_identity()->path( 'static/views/signin-page.php', 'dir' ) );
           die();
+        }
+
+      }
+
+      /**
+       * Maybe print sign in Error message
+       *
+       */
+      static public function maybe_show_error_message() {
+        $message = get_transient( 'wpgi_error_message' );
+        if( !empty( $message ) ) {
+          wp_enqueue_style( 'wpgi-error-handler', ud_get_wp_google_identity()->path( 'static/styles/wpgi-error-handler.css', 'url' ) );
+          wp_enqueue_script( 'wpgi-error-handler', ud_get_wp_google_identity()->path( 'static/scripts/wpgi-error-handler.js', 'url' ), array( 'jquery' ) );
+          wp_localize_script( 'wpgi-error-handler', 'wpgi_err', array(
+            'message' => sprintf( __( 'Sign In Error: %s', ud_get_wp_google_identity( 'domain' ) ), $message ),
+            'close' => __( 'Close', ud_get_wp_google_identity( 'domain' ) )
+          ) );
+          delete_transient( 'wpgi_error_message' );
+          do_action( 'wpgi::error::handler', $message );
         }
 
       }

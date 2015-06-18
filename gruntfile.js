@@ -48,7 +48,8 @@ module.exports = function build( grunt ) {
           relativeUrls: true
         },
         files: {
-          'static/styles/admin.css': [ 'static/styles/src/admin.less' ]
+          'static/styles/admin.css': [ 'static/styles/src/admin.less' ],
+          'static/styles/wpgi-error-handler.css': [ 'static/styles/src/wpgi-error-handler.less' ]
         }
       },
       development: {
@@ -56,7 +57,8 @@ module.exports = function build( grunt ) {
           relativeUrls: true
         },
         files: {
-          'static/styles/admin.dev.css': [ 'static/styles/src/admin.less' ]
+          'static/styles/admin.dev.css': [ 'static/styles/src/admin.less' ],
+          'static/styles/wpgi-error-handler.dev.css': [ 'static/styles/src/wpgi-error-handler.less' ]
         }
       }
     },
