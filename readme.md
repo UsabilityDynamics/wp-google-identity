@@ -11,5 +11,4 @@ Google Identity for Wordpress
 [![Scrutinizer Quality](http://img.shields.io/scrutinizer/g/usabilitydynamics/wp-google-identity.svg)](https://scrutinizer-ci.com/g/usabilitydynamics/wp-google-identity)
 [![Scrutinizer Coverage](http://img.shields.io/scrutinizer/coverage/g/usabilitydynamics/wp-google-identity.svg)](https://scrutinizer-ci.com/g/usabilitydynamics/wp-google-identity)
 [![Packagist Vesion](http://img.shields.io/packagist/v/usabilitydynamics/wp-google-identity.svg)](https://packagist.org/packages/usabilitydynamics/wp-google-identity)
-[![CircleCI](https://circleci.com/gh/usabilitydynamics/wp-google-identity.png)](https://circleci.com/gh/usabilitydynamics/wp-google-identity)
 ***
