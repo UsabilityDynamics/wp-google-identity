@@ -2,13 +2,16 @@
 /**
  * Plugin Name: WP Google Identity
  * Plugin URI: https://usabilitydynamics.com
- * Description: Google Identity for Wordpress
+ * Description: Google Identity for WordPress
  * Author: Usability Dynamics, Inc.
  * Version: 1.0.0
  * Text Domain: wp_google_identity
- * Author URI: http://usabilitydynamics.com
+ * Author URI: https://www.usabilitydynamics.com
  *
- * Copyright 2012 - 2014 Usability Dynamics, Inc.  ( email : info@usabilitydynamics.com )
+ * GitHub Plugin URI: UsabilityDynamics/wp-google-identity
+ * GitHub Branch: v1.0
+ *
+ * Copyright 2012 - 2015 Usability Dynamics, Inc.  ( email : info@usabilitydynamics.com )
  *
  */
 
@@ -19,6 +22,9 @@ if( !function_exists( 'ud_get_wp_google_identity' ) ) {
    *
    * @author Usability Dynamics, Inc.
    * @since 1.0.0
+   * @param bool $key
+   * @param null $default
+   * @return
    */
   function ud_get_wp_google_identity( $key = false, $default = null ) {
     $instance = \UsabilityDynamics\WPGI\Bootstrap::get_instance();
