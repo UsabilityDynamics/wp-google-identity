@@ -27,8 +27,9 @@ namespace UsabilityDynamics\WPGI {
        *  Renders Shortcode
        */
       public function call( $atts = "" ) {
-        if( !ud_get_wp_google_identity()->is_valid() )
+        if( !ud_get_wp_google_identity()->is_valid() ) {
           return false;
+        }
         ?><script type="text/javascript" src="//www.gstatic.com/authtoolkit/js/gitkit.js"></script>
         <link type=text/css rel=stylesheet href="//www.gstatic.com/authtoolkit/css/gitkit.css" />
         <script type=text/javascript>

@@ -3,6 +3,30 @@
  * Sign-In page
  */
 
+/**
+ * Set page where user will be redirected to
+ * after successful login.
+ */
+
+global $wp_query;
+$trnst = get_transient( 'wpgi_signin_redirect_to' );
+if(
+  !empty( $wp_query->queried_object ) &&
+  empty( $trnst ) &&
+  isset( $_REQUEST[ 'mode' ] ) &&
+  $_REQUEST[ 'mode' ] == 'select'
+) {
+  $referer = $_SERVER[ 'HTTP_REFERER' ];
+  $blog = get_blog_details();
+  if( strpos( $referer, $blog->domain ) !== false ) {
+    $current = get_permalink( $wp_query->queried_object->ID );
+    $current = trim( str_replace( home_url(), '', $current ), '/\\' );
+    if( !empty( $current ) && strpos( $referer, $current ) === false ) {
+      set_transient( 'wpgi_signin_redirect_to', $referer );
+    }
+  }
+}
+
 $providers = array();
 foreach( ud_get_wp_google_identity( 'providers', array() ) as $provider => $v ) {
   if( $v == '1' && $provider !== 'password_account' ) {

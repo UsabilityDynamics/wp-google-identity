@@ -280,21 +280,7 @@ namespace UsabilityDynamics\WPGI {
         wp_set_current_user ( $user_id );
         wp_set_auth_cookie  ( $user_id );
 
-        /**
-         * Determine if sign-in successful page is set.
-         * If not, we're using home url.
-         */
-        $redirect_to = ud_get_wp_google_identity( 'signin.signin_success_page' );
-        if( !empty( $redirect_to ) ) {
-          $redirect_to = get_permalink($redirect_to);
-        }
-        if( empty( $redirect_to ) ) {
-          $redirect_to = home_url();
-        }
-
-        wp_safe_redirect( $redirect_to );
-
-        exit();
+        self::redirect();
 
       }
 
@@ -306,6 +292,38 @@ namespace UsabilityDynamics\WPGI {
         $redirect_to = home_url();
         wp_safe_redirect( $redirect_to );
         exit();
+      }
+
+      /**
+       * Determine 'redirect to' page
+       * and do redirect.
+       *
+       */
+      static public function redirect(){
+
+        $referer = get_transient( 'wpgi_signin_redirect_to' );
+
+        $redirect_to = ud_get_wp_google_identity( 'signin.signin_success_page' );
+        if( !empty( $redirect_to ) ) {
+          $redirect_to = get_permalink($redirect_to);
+        }
+
+        if( empty( $redirect_to ) ) {
+          if( !empty( $referer ) ) {
+            $redirect_to = $referer;
+          } else {
+            $redirect_to = home_url();
+          }
+        }
+
+        $redirect_to = apply_filters( 'wpgi_signin_redirect_to', $redirect_to, $referer );
+
+        delete_transient( 'wpgi_signin_redirect_to' );
+
+        wp_safe_redirect( $redirect_to );
+
+        exit();
+
       }
 
       /**
