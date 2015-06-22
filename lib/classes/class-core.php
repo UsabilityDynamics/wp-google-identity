@@ -48,6 +48,9 @@ namespace UsabilityDynamics\WPGI {
        */
       static public function on_disabled_native_login() {
         global $pagenow;
+        if( !ud_get_wp_google_identity()->is_valid() ) {
+          return;
+        }
         if( 'wp-login.php' == $pagenow &&  ud_get_wp_google_identity( 'signin.disable_native_login' ) == '1' ) {
           if( isset( $_REQUEST[ 'action' ] ) && in_array( $_REQUEST[ 'action' ], array( 'logout' ) ) ) {
             return;

@@ -27,34 +27,8 @@ namespace UsabilityDynamics\WPGI {
        *  Renders Shortcode
        */
       public function call( $atts = "" ) {
-        /**
-         * Be sure if Sign-In is enabled. */
-        if( ud_get_wp_google_identity( 'signin.enabled' ) !== '1' ) {
-          return;
-        }
-        /** Be sure that Browser API Key is set. */
-        $api_key = ud_get_wp_google_identity( 'oauth.google.api_key' );
-        if( empty( $api_key ) ) {
-          return;
-        }
-        $client_id = ud_get_wp_google_identity( 'oauth.google.client_id' );
-        if( empty( $client_id ) ) {
-          return;
-        }
-        $service_account_email = ud_get_wp_google_identity( 'oauth.google.service_account_email' );
-        if( empty( $service_account_email ) ) {
-          return;
-        }
-        /** Be sure that Sign-In page is set. */
-        $signin_page_id = ud_get_wp_google_identity( 'signin.page' );
-        if( empty( $signin_page_id ) || !get_permalink( $signin_page_id ) ) {
-          return;
-        }
-        /** Be sure that config file is set and exists. */
-        $private_key_file = ud_get_wp_google_identity( 'oauth.google.private_key_file' );
-        if( !file_exists( $private_key_file ) ) {
-          return;
-        }
+        if( !ud_get_wp_google_identity()->is_valid() )
+          return false;
         ?><script type="text/javascript" src="//www.gstatic.com/authtoolkit/js/gitkit.js"></script>
         <link type=text/css rel=stylesheet href="//www.gstatic.com/authtoolkit/css/gitkit.css" />
         <script type=text/javascript>
