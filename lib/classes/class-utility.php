@@ -46,7 +46,7 @@ namespace UsabilityDynamics\WPGI {
         if( !file_exists( $private_key_file ) ) {
           return false;
         }
-
+        return true;
       }
 
     }

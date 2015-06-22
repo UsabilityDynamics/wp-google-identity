@@ -35,7 +35,7 @@ namespace UsabilityDynamics\WPGI {
           window.google.identitytoolkit.signInButton(
             '#wpgi_sign',
             {
-              widgetUrl: "<?php echo trailingslashit( get_permalink( $signin_page_id ) ); ?>",
+              widgetUrl: "<?php echo trailingslashit( get_permalink( ud_get_wp_google_identity( 'signin.page' ) ) ); ?>",
               signOutUrl: "<?php echo trailingslashit( home_url() ); ?>"
               <?php if( ud_get_wp_google_identity( 'signin.popup' ) == '1' ) echo ', popupMode: "true"'; ?>
               <?php
